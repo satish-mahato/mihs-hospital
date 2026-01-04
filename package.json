@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "16.1.1",
+    "lucide-react": "^0.276.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -22,5 +23,8 @@
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.1.18"
   }
 }
