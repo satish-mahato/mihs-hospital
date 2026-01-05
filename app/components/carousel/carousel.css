@@ -1,3 +1,7 @@
+/* ============================================================================
+   Carousel Container
+   ============================================================================ */
+
 .carousel {
   position: relative;
   overflow: hidden;
@@ -7,19 +11,37 @@
   max-width: 100%;
   box-sizing: border-box;
 }
+
+.carousel:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   Carousel Track & Slides
+   ============================================================================ */
+
 .carousel-track {
   display: flex;
-  transition: transform 420ms cubic-bezier(.22,.98,.36,1);
+  transition: transform 420ms cubic-bezier(0.22, 0.98, 0.36, 1);
   width: 100%;
+  will-change: transform;
 }
+
 .carousel-slide {
   min-width: 100%;
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  min-height: 260px; /* fallback if no height provided */
+  min-height: 260px;
+  height: 80vh;
 }
+
+/* ============================================================================
+   Image & Overlay
+   ============================================================================ */
+
 .carousel-image {
   position: absolute;
   inset: 0;
@@ -28,30 +50,41 @@
   object-fit: cover;
   display: block;
 }
+
 .carousel-overlay {
   position: relative;
   z-index: 2;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%);
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.8) 100%);
   color: #fff;
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
 }
+
 .carousel-title {
   margin: 0;
   font-size: 1.95rem;
   font-weight: 700;
 }
+
 .carousel-desc {
   margin: 6px 0 0 0;
   font-size: 1.25rem;
   opacity: 0.95;
 }
+
+/* ============================================================================
+   Navigation Buttons
+   ============================================================================ */
+
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   color: #fff;
   border: none;
   width: 40px;
@@ -62,10 +95,30 @@
   justify-content: center;
   cursor: pointer;
   z-index: 5;
+  font-size: 1.5rem;
+  transition: background 0.2s ease;
 }
-.carousel-btn.prev { left: 12px; }
-.carousel-btn.next { right: 12px; }
-.carousel-btn:focus { outline: 2px solid rgba(255,255,255,0.18); }
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.carousel-btn:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.carousel-btn.prev {
+  left: 12px;
+}
+
+.carousel-btn.next {
+  right: 12px;
+}
+
+/* ============================================================================
+   Dot Indicators
+   ============================================================================ */
+
 .carousel-dots {
   position: absolute;
   bottom: 12px;
@@ -75,20 +128,131 @@
   gap: 8px;
   z-index: 6;
 }
+
 .dot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.45);
+  background: rgba(255, 255, 255, 0.45);
   border: none;
   padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.dot.active { background: #fff; width: 10px; height: 10px; }
 
-/* Responsive adjustments */
+.dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.dot.active {
+  background: #fff;
+  width: 10px;
+  height: 10px;
+}
+
+/* ============================================================================
+   Responsive Design - Tablets
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .carousel-slide {
+    min-height: 200px;
+    height: 50vh !important;
+  }
+
+  .carousel-title {
+    font-size: 1.5rem;
+  }
+
+  .carousel-desc {
+    font-size: 1rem;
+  }
+
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-overlay {
+    padding: 16px;
+  }
+}
+
+/* ============================================================================
+   Responsive Design - Mobile
+   ============================================================================ */
+
 @media (max-width: 640px) {
-  .carousel-slide { min-height: 160px; }
-  .carousel-title { font-size: 1rem; }
-  .carousel-desc { font-size: 0.85rem; }
-  .carousel-btn { width: 34px; height: 34px; }
+  .carousel-slide {
+    min-height: 180px;
+    height: 40vh !important;
+  }
+
+  .carousel-image {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .carousel-title {
+    font-size: 1.1rem;
+  }
+
+  .carousel-desc {
+    font-size: 0.85rem;
+  }
+
+  .carousel-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .carousel-btn.prev {
+    left: 8px;
+  }
+
+  .carousel-btn.next {
+    right: 8px;
+  }
+
+  .carousel-overlay {
+    padding: 12px;
+  }
+
+  .carousel-dots {
+    bottom: 8px;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .dot.active {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* ============================================================================
+   Responsive Design - Extra Small Mobile
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    min-height: 160px;
+    height: 35vh !important;
+  }
+
+  .carousel-title {
+    font-size: 1rem;
+  }
+
+  .carousel-desc {
+    font-size: 0.8rem;
+  }
+
+  .carousel-overlay {
+    padding: 10px;
+  }
 }
