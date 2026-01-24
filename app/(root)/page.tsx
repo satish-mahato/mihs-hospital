@@ -1,33 +1,38 @@
-import React from "react";
+// ============================================================================
+// Home Page
+// ============================================================================
+
 import Carousel from "../components/carousel/Carousel";
+import Stats from "../components/stats/Stats";
+import DepartmentsSection from "../components/departments/DepartmentsSection";
+import { fetchCarousels } from "../services/carouselService";
 
-const items = [
-  {
-    image: "https://cdn.mihs.edu.np/uploads/images/cd2-1765121133884.jpg",
-    title: "Modern Hospital Wing",
-    description: "Comfortable spaces designed for patient recovery.",
-  },
-  {
-    image: "https://cdn.mihs.edu.np/uploads/images/5th-sen-jpg-1765121337808-1765897454772.webp",
-    title: "Caring Staff",
-    description: "Dedicated professionals available 24/7.",
-  },
-  {
-    image: "https://cdn.mihs.edu.np/uploads/images/wlc-1765121531631-1765897570990.webp",
-    title: "Welcome and Farewell Program 2082",
-    description: "State-of-the-art diagnostics and treatment.",
-  },
-    {
-    image: "https://cdn.mihs.edu.np/uploads/images/1600x700-1765121816109-1765897496851.webp",
-    title: "Advanced Equipment",
-    description: "State-of-the-art diagnostics and treatment.",
-  },
-];
+export default async function Home() {
+  const carouselItems = await fetchCarousels();
 
-export default function Home() {
   return (
-    <div>
-      <Carousel items={items} interval={4500} height="70vh" gutterX={0} gutterY={0} />
-    </div>
+    <main>
+      {/* Hero Carousel */}
+      {carouselItems.length > 0 ? (
+        <Carousel
+          items={carouselItems}
+          interval={4500}
+          height="70vh"
+          gutterX={0}
+          gutterY={0}
+        />
+      ) : (
+        <div className="flex items-center justify-center h-[70vh] bg-gray-100">
+          <p className="text-gray-500">No carousel items available.</p>
+        </div>
+      )}
+         {/* Patient Statistics */}
+      <Stats />
+
+      {/* Departments preview */}
+      <DepartmentsSection />
+
+   
+    </main>
   );
 }

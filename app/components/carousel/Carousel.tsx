@@ -49,14 +49,15 @@ export default function Carousel({
 
   // Preload adjacent images for smooth transitions
   useEffect(() => {
+    if (!items || items.length === 0) return;
     const prevIndex = (index - 1 + items.length) % items.length;
     const nextIndex = (index + 1) % items.length;
     setLoadedImages((prev) => new Set([...prev, index, prevIndex, nextIndex]));
-  }, [index, items.length]);
+  }, [index, items?.length]);
 
   // Auto-advance carousel
   useEffect(() => {
-    if (paused || items.length <= 1) return;
+    if (paused || !items || items.length <= 1) return;
 
     timeoutRef.current = window.setInterval(() => {
       setIndex((i) => (i + 1) % items.length);
@@ -65,7 +66,7 @@ export default function Carousel({
     return () => {
       if (timeoutRef.current) window.clearInterval(timeoutRef.current);
     };
-  }, [items.length, interval, paused]);
+  }, [items?.length, interval, paused]);
 
   // Keyboard navigation (Arrow keys)
   useEffect(() => {
@@ -86,6 +87,7 @@ export default function Carousel({
   // ============================================================================
 
   const goTo = (i: number) => {
+    if (!items || items.length === 0) return;
     setIndex((i + items.length) % items.length);
   };
 
@@ -114,6 +116,10 @@ export default function Carousel({
   // ============================================================================
   // Computed Values
   // ============================================================================
+
+  if (!items || items.length === 0) {
+    return null;
+  }
 
   const gx = typeof gutterX === "number" ? `${gutterX}px` : gutterX;
   const gy = typeof gutterY === "number" ? `${gutterY}px` : gutterY;
@@ -177,8 +183,8 @@ export default function Carousel({
 
               {/* Overlay with title and description */}
               <div className="carousel-overlay">
-                <h3 className="carousel-title">{item.title}</h3>
-                {item.description && <p className="carousel-desc">{item.description}</p>}
+                <h3 className="carousel-title ">{item.title}</h3>
+                {item.description && <p className="carousel-desc ">{item.description}</p>}
               </div>
             </div>
           );

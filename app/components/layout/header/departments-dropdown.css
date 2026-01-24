@@ -1,0 +1,99 @@
+/* ============================================================================
+   Departments Dropdown Styles
+   ============================================================================ */
+
+.departments-dropdown {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+}
+
+.departments-dropdown-desktop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  min-width: 280px;
+  z-index: 100;
+}
+
+.departments-dropdown-mobile {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-left: 1.5rem;
+}
+
+.departments-grid {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ============================================================================
+   Department Items
+   ============================================================================ */
+
+.department-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #1e3a8a;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.department-item:hover {
+  background: #eff6ff;
+  color: #3b82f6;
+  transform: translateX(4px);
+}
+
+.department-icon {
+  display: flex;
+  align-items: center;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.department-icon-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.department-name {
+  font-weight: 500;
+}
+
+/* ============================================================================
+   Animations
+   ============================================================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   Responsive
+   ============================================================================ */
+
+@media (max-width: 1023px) {
+  .departments-dropdown-mobile {
+    box-shadow: none;
+    border: 1px solid #bfdbfe;
+  }
+}

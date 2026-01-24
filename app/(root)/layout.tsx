@@ -11,7 +11,7 @@ function Layout({ children }: PropsWithChildren) {
     <div className="font-jost">
       <Header />
     
-      <main className="flex-grow min-h-screen">{children}</main>
+      <main className="flex-grow min-h-screen pt-[140px] lg:pt-[160px]">{children}</main>
       <Footer />
     </div>
   );
