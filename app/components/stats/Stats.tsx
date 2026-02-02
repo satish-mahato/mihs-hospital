@@ -1,7 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./stats.css";
+import { fetchHospitalStats } from "@/app/services/statsService";
+import type { HospitalStats } from "@/types/stats";
 
 // ============================================================================
 // Types
@@ -56,82 +58,158 @@ const ShieldIcon = () => (
   </svg>
 );
 
-// ============================================================================
-// Data
-// ============================================================================
+const HeartIcon = () => (
+  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
-const statsData: StatItem[] = [
-  {
-    id: "total",
-    value: 467,
-    label: "Total Patients Today",
-    subtitle: "OPD 444 • Emergency 12 • Admitted 11",
-    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    icon: <UsersIcon />,
-  },
-  {
-    id: "emergency",
-    value: 12,
-    label: "Emergency Patients",
-    subtitle: "Male 5 • Female 7",
-    gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-    icon: <AmbulanceIcon />,
-  },
-  {
-    id: "opd",
-    value: 444,
-    label: "OPD Patients",
-    subtitle: "Male 179 • Female 265",
-    gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    icon: <ClipboardIcon />,
-  },
-  {
-    id: "insurance",
-    value: 168,
-    label: "Health Insurance Program",
-    subtitle: "Active enrollments",
-    gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-    icon: <ShieldIcon />,
-  },
-];
+const BedIcon = () => (
+  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M2 4v16" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2 8h18a2 2 0 0 1 2 2v10" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2 17h20" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 8V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ActivityIcon = () => (
+  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 // ============================================================================
 // Component
 // ============================================================================
 
 export default function Stats() {
+  const [stats, setStats] = useState<HospitalStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchHospitalStats();
+        setStats(data);
+        setLastUpdated(new Date());
+      } catch (error) {
+        console.error('Failed to load stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStats();
+    
+    // Refresh data every 30 seconds
+    const interval = setInterval(loadStats, 30000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Create dynamic stats data based on API response
+  const createStatsData = (hospitalStats: HospitalStats): StatItem[] => [
+    {
+      id: "total",
+      value: hospitalStats.total,
+      label: "Total Patients Today",
+      subtitle: `OPD ${hospitalStats.opd} • Emergency ${hospitalStats.totalEmergency} • Admitted ${hospitalStats.totalAdmit}`,
+      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      icon: <UsersIcon />,
+    },
+    {
+      id: "opd",
+      value: hospitalStats.opd,
+      label: "OPD Patients",
+      subtitle: `New ${hospitalStats.new} • Old ${hospitalStats.old}`,
+      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      icon: <ClipboardIcon />,
+    },
+    {
+      id: "emergency",
+      value: hospitalStats.totalEmergency,
+      label: "Emergency Patients",
+      subtitle: `Regular ${hospitalStats.emergency} • BIMA ${hospitalStats.emerBima}`,
+      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      icon: <AmbulanceIcon />,
+    },
+    {
+      id: "admitted",
+      value: hospitalStats.totalAdmit,
+      label: "Admitted Patients",
+      subtitle: `Regular ${hospitalStats.admit} • BIMA ${hospitalStats.admitBima}`,
+      gradient: "linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)",
+      icon: <BedIcon />,
+    },
+    {
+      id: "insurance",
+      value: hospitalStats.totalBima,
+      label: "BIMA Patients",
+      subtitle: `OPD ${hospitalStats.bima} • Emergency ${hospitalStats.emerBima} • Admitted ${hospitalStats.admitBima}`,
+      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+      icon: <ShieldIcon />,
+    },
+    {
+      id: "activity",
+      value: hospitalStats.new,
+      label: "New Registrations",
+      subtitle: "Today's new patient registrations",
+      gradient: "linear-gradient(135deg, #feca57 0%, #ff9ff3 100%)",
+      icon: <ActivityIcon />,
+    },
+  ];
+
+  const statsData = stats ? createStatsData(stats) : [];
+
   return (
     <section className="stats-section">
       <div className="stats-container">
         <div className="stats-header">
           <h2 className="stats-title">Service/Patient Statistics</h2>
-          <span className="live-badge">
-            <span className="pulse-dot"></span>
-            Live
-          </span>
+          <div className="stats-header-right">
+            <span className="live-badge">
+              <span className="pulse-dot"></span>
+              Live
+            </span>
+            {lastUpdated && (
+              <span className="last-updated">
+                Last updated: {lastUpdated.toLocaleTimeString()}
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="stats-grid">
-          {statsData.map((stat, index) => (
-            <div
-              key={stat.id}
-              className="stat-card"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="stat-icon-wrapper" style={{ background: stat.gradient }}>
-                <div className="stat-icon">{stat.icon}</div>
-              </div>
+        {loading ? (
+          <div className="stats-loading">
+            <div className="loading-spinner"></div>
+            <p>Loading live statistics...</p>
+          </div>
+        ) : (
+          <div className="stats-grid">
+            {statsData.map((stat, index) => (
+              <div
+                key={stat.id}
+                className="stat-card"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="stat-icon-wrapper" style={{ background: stat.gradient }}>
+                  <div className="stat-icon">{stat.icon}</div>
+                </div>
 
-              <div className="stat-content">
-                <div className="stat-value">{stat.value.toLocaleString()}</div>
-                <div className="stat-label">{stat.label}</div>
-                {stat.subtitle && <div className="stat-subtitle">{stat.subtitle}</div>}
-              </div>
+                <div className="stat-content">
+                  <div className="stat-value">{stat.value.toLocaleString()}</div>
+                  <div className="stat-label">{stat.label}</div>
+                  {stat.subtitle && <div className="stat-subtitle">{stat.subtitle}</div>}
+                </div>
 
-              <div className="stat-bg-gradient" style={{ background: stat.gradient }}></div>
-            </div>
-          ))}
-        </div>
+                <div className="stat-bg-gradient" style={{ background: stat.gradient }}></div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

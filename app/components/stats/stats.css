@@ -24,12 +24,24 @@
   margin-bottom: 2rem;
 }
 
+.stats-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .stats-title {
   margin: 0;
   font-size: 1.75rem;
   font-weight: 700;
   color: #1e293b;
   letter-spacing: -0.025em;
+}
+
+.last-updated {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .live-badge {
@@ -68,8 +80,20 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============================================================================
@@ -172,9 +196,10 @@
 }
 
 .stat-subtitle {
-  font-size: 0.8rem;
-  color: #94a3b8;
+  font-size: 0.85rem;
+  color: #64748b;
   line-height: 1.4;
+  font-weight: 500;
 }
 
 /* ============================================================================
@@ -188,11 +213,6 @@
 
   .stats-title {
     font-size: 1.5rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
   }
 
   .stat-card {
@@ -211,6 +231,34 @@
   .stat-label {
     font-size: 0.875rem;
   }
+}
+
+/* ============================================================================
+   Loading States
+   ============================================================================ */
+
+.stats-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  color: #64748b;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 480px) {
