@@ -41,7 +41,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem; /* Slightly larger for mobile */
+}
+
+@media (min-width: 768px) {
+  .header-topbar-container {
+    font-size: 0.875rem;
+  }
 }
 
 .header-topbar-link {
@@ -127,28 +133,30 @@
   transition: all 0.3s ease;
 }
 
-.header-title-normal {
-  font-size: 1.25rem;
-}
-
-.header-title-small {
-  font-size: 0.875rem;
-}
-
 .header-subtitle {
   color: #1e40af;
   margin: 0;
   transition: all 0.3s ease;
 }
 
+/* Mobile-first approach - default mobile sizes */
+.header-title-normal {
+  font-size: 1.1rem; /* Increased from 1.25rem for better mobile readability */
+}
+
+.header-title-small {
+  font-size: 1rem; /* Increased from 0.875rem */
+}
+
 .header-subtitle-normal {
-  font-size: 0.875rem;
+  font-size: 0.8rem; /* Increased from 0.875rem */
 }
 
 .header-subtitle-small {
-  font-size: 0.625rem;
+  font-size: 0.7rem; /* Increased from 0.625rem */
 }
 
+/* Tablet and up */
 @media (min-width: 768px) {
   .header-title-normal {
     font-size: 1.5rem;
@@ -293,7 +301,13 @@
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
-  font-size: 1rem;
+  font-size: 1.1rem; /* Increased from 1rem for better mobile readability */
+}
+
+@media (min-width: 768px) {
+  .header-nav-link {
+    font-size: 1rem;
+  }
 }
 
 .header-nav-link:hover {

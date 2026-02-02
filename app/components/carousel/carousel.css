@@ -201,36 +201,18 @@
     font-size: 0.85rem;
   }
 
+  /* Hide navigation arrows on mobile */
   .carousel-btn {
-    width: 32px;
-    height: 32px;
-  }
-
-  .carousel-btn.prev {
-    left: 8px;
-  }
-
-  .carousel-btn.next {
-    right: 8px;
+    display: none;
   }
 
   .carousel-overlay {
     padding: 12px;
   }
 
+  /* Hide dots on mobile */
   .carousel-dots {
-    bottom: 8px;
-    gap: 6px;
-  }
-
-  .dot {
-    width: 6px;
-    height: 6px;
-  }
-
-  .dot.active {
-    width: 8px;
-    height: 8px;
+    display: none;
   }
 }
 
