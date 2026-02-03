@@ -1,13 +1,11 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./stats.css";
 import { fetchHospitalStats } from "@/app/services/statsService";
 import type { HospitalStats } from "@/types/stats";
 
 // ============================================================================
 // Types
-// ============================================================================
+// ==========================================================================npm==
 
 interface StatItem {
   id: string;
@@ -83,32 +81,9 @@ const ActivityIcon = () => (
 // Component
 // ============================================================================
 
-export default function Stats() {
-  const [stats, setStats] = useState<HospitalStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchHospitalStats();
-        setStats(data);
-        setLastUpdated(new Date());
-      } catch (error) {
-        console.error('Failed to load stats:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadStats();
-    
-    // Refresh data every 30 seconds
-    const interval = setInterval(loadStats, 30000);
-    
-    return () => clearInterval(interval);
-  }, []);
+export default async function Stats() {
+  // Fetch data directly in the server component
+  const stats = await fetchHospitalStats();
 
   // Create dynamic stats data based on API response
   const createStatsData = (hospitalStats: HospitalStats): StatItem[] => [
@@ -152,10 +127,9 @@ export default function Stats() {
       gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
       icon: <ShieldIcon />,
     },
-    
   ];
 
-  const statsData = stats ? createStatsData(stats) : [];
+  const statsData = createStatsData(stats);
 
   return (
     <section className="stats-section">
@@ -167,42 +141,30 @@ export default function Stats() {
               <span className="pulse-dot"></span>
               Live
             </span>
-            {lastUpdated && (
-              <span className="last-updated">
-                Last updated: {lastUpdated.toLocaleTimeString()}
-              </span>
-            )}
           </div>
         </div>
 
-        {loading ? (
-          <div className="stats-loading">
-            <div className="loading-spinner"></div>
-            <p>Loading live statistics...</p>
-          </div>
-        ) : (
-          <div className="stats-grid">
-            {statsData.map((stat, index) => (
-              <div
-                key={stat.id}
-                className="stat-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="stat-icon-wrapper" style={{ background: stat.gradient }}>
-                  <div className="stat-icon">{stat.icon}</div>
-                </div>
-
-                <div className="stat-content">
-                  <div className="stat-value">{stat.value.toLocaleString()}</div>
-                  <div className="stat-label">{stat.label}</div>
-                  {stat.subtitle && <div className="stat-subtitle">{stat.subtitle}</div>}
-                </div>
-
-                <div className="stat-bg-gradient" style={{ background: stat.gradient }}></div>
+        <div className="stats-grid">
+          {statsData.map((stat, index) => (
+            <div
+              key={stat.id}
+              className="stat-card"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="stat-icon-wrapper" style={{ background: stat.gradient }}>
+                <div className="stat-icon">{stat.icon}</div>
               </div>
-            ))}
-          </div>
-        )}
+
+              <div className="stat-content">
+                <div className="stat-value">{stat.value.toLocaleString()}</div>
+                <div className="stat-label">{stat.label}</div>
+                {stat.subtitle && <div className="stat-subtitle">{stat.subtitle}</div>}
+              </div>
+
+              <div className="stat-bg-gradient" style={{ background: stat.gradient }}></div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
