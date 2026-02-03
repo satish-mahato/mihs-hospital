@@ -147,19 +147,12 @@ export default function Stats() {
     {
       id: "insurance",
       value: hospitalStats.totalBima,
-      label: "BIMA Patients",
+      label: "Life Insurance",
       subtitle: `OPD ${hospitalStats.bima} • Emergency ${hospitalStats.emerBima} • Admitted ${hospitalStats.admitBima}`,
       gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
       icon: <ShieldIcon />,
     },
-    {
-      id: "activity",
-      value: hospitalStats.new,
-      label: "New Registrations",
-      subtitle: "Today's new patient registrations",
-      gradient: "linear-gradient(135deg, #feca57 0%, #ff9ff3 100%)",
-      icon: <ActivityIcon />,
-    },
+    
   ];
 
   const statsData = stats ? createStatsData(stats) : [];
