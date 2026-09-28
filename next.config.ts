@@ -2,10 +2,35 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Remote hosts allowed through the Next.js Image Optimizer.
+    // NOTE: keep this in sync with the hosts returned by the backend API
+    // (uploaded assets are served straight from the S3 bucket, e.g.
+    // https://s3.ap-south-1.amazonaws.com/mihs.edu/uploads/images/<file>.webp
+    // while cdn.mihs.edu.np is used for some static assets).
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.mihs.edu.np",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "s3.ap-south-1.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "mihs.edu.s3.ap-south-1.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "s3.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "mihs.edu.s3.amazonaws.com",
         port: "",
       },
     ],
