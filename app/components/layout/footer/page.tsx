@@ -99,7 +99,7 @@ export default function Footer() {
         <div className="footer-section footer-brand">
           <Link href="/" className="footer-logo-link">
             <Image
-              src="https://cdn.mihs.edu.np/uploads/images/ca6dd477-731e-4523-a8a9-5e3c9de34f80.png"
+              src="https://s3.ap-south-1.amazonaws.com/mihs.edu/uploads/images/ca6dd477-731e-4523-a8a9-5e3c9de34f80.png"
               alt="MIHS Logo"
               width={120}
               height={120}
