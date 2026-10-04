@@ -5,7 +5,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "https://api.mihs.edu.np";
 export async function fetchDepartments(): Promise<DepartmentData[]> {
   try {
     const res = await fetch(`${API_BASE}/v1/department/fetch-all-departments`, {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
+      next: { revalidate: 60, tags: ["departments"] },
     });
     if (!res.ok) return [];
     const data: DepartmentsApiResponse = await res.json();
@@ -45,7 +45,7 @@ export async function fetchDepartments(): Promise<DepartmentData[]> {
 export async function fetchDepartmentBySlug(slug: string): Promise<DepartmentData | null> {
   try {
     const res = await fetch(`${API_BASE}/v1/department/fetch-department-by-slug/${encodeURIComponent(slug)}`, {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
+      next: { revalidate: 60, tags: ["departments"] },
     });
     if (!res.ok) return null;
     const data: DepartmentApiResponse = await res.json();
