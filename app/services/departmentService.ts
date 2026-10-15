@@ -21,6 +21,7 @@ export async function fetchDepartments(): Promise<DepartmentData[]> {
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/paediatrics-1769252878511.webp",
         description: "",
         services: ["Pediatric ICU", "Neonatal Care"],
+        departmentMembers: [],
       },
       {
         id: "cmks97rsw0005p4cgb8f5iupm",
@@ -29,6 +30,7 @@ export async function fetchDepartments(): Promise<DepartmentData[]> {
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/derma-1769255781532.webp",
         description: "",
         services: ["Advanced Skin Diagnostics"],
+        departmentMembers: [],
       },
       {
         id: "cmks9akur0006p4cgi441xpme",
@@ -37,6 +39,7 @@ export async function fetchDepartments(): Promise<DepartmentData[]> {
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/neuro-surgery-logo-1769255911985.webp",
         description: "",
         services: ["Brain Surgery"],
+        departmentMembers: [],
       },
     ];
   }
@@ -61,6 +64,7 @@ export async function fetchDepartmentBySlug(slug: string): Promise<DepartmentDat
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/paediatrics-1769252878511.webp",
         description: "<p>Our Paediatrics department provides comprehensive medical care for infants, children, and adolescents.</p>",
         services: ["Pediatric ICU", "Neonatal Care", "Pediatric Surgery"],
+        departmentMembers: [],
       },
       "dermatology": {
         id: "cmks97rsw0005p4cgb8f5iupm",
@@ -69,6 +73,7 @@ export async function fetchDepartmentBySlug(slug: string): Promise<DepartmentDat
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/derma-1769255781532.webp",
         description: "<p>Our Dermatology department provides comprehensive care for skin, hair, and nail conditions.</p>",
         services: ["Advanced Skin Diagnostics", "Cosmetic Dermatology"],
+        departmentMembers: [],
       },
       "neurosurgery": {
         id: "cmks9akur0006p4cgi441xpme",
@@ -77,6 +82,7 @@ export async function fetchDepartmentBySlug(slug: string): Promise<DepartmentDat
         imageUrl: "https://cdn.mihs.edu.np/uploads/images/neuro-surgery-logo-1769255911985.webp",
         description: "<p>Our Neurosurgery department specializes in surgical treatment of disorders affecting the nervous system.</p>",
         services: ["Brain Surgery", "Spinal Surgery"],
+        departmentMembers: [],
       },
     };
 

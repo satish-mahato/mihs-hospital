@@ -21,7 +21,7 @@ export interface CarouselApiResponse {
   success: boolean;
   statusCode: number;
   message: string;
-  Carousels: {
+  HospitalCarousels: {
     data: CarouselData[];
     pagination: {
       totalItems: number;

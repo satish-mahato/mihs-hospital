@@ -4,7 +4,7 @@
 
 import type { CarouselApiResponse, CarouselItem } from "@/types/carousel";
 
-const API_URL = "https://api.mihs.edu.np/v1/carousel/fetch-all-carousels";
+const API_URL = "https://api.mihs.edu.np/v1/hospital-carousel/fetch-all-hospital-carousels";
 const REVALIDATE_TIME = 3600; // 1 hour
 
 /**
@@ -23,7 +23,7 @@ export async function fetchCarousels(): Promise<CarouselItem[]> {
 
     const data: CarouselApiResponse = await response.json();
 
-    return data.Carousels.data.map((item) => ({
+    return data.HospitalCarousels.data.map((item) => ({
       image: item.imageUrl,
       title: item.title,
       description: item.description,
