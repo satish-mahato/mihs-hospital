@@ -58,6 +58,51 @@ export default async function DepartmentPage({ params }: Props) {
               dangerouslySetInnerHTML={{ __html: department.description || "<p>No description available.</p>" }}
             />
           </div>
+
+          {/* Department Members */}
+          {department.departmentMembers && department.departmentMembers.length > 0 && (
+            <div className="department-members">
+              <h2 className="section-heading">Meet Our Team</h2>
+              <div className="members-grid">
+                {department.departmentMembers.map((member) => (
+                  <div key={member.id} className="member-card">
+                    <div className="member-photo-wrap">
+                      {member.imageUrl ? (
+                        <Image
+                          src={member.imageUrl}
+                          alt={member.name}
+                          width={120}
+                          height={120}
+                          className="member-photo"
+                        />
+                      ) : (
+                        <div className="member-photo-placeholder">
+                          {member.name.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <div className="member-info">
+                      <h3 className="member-name">{member.name}</h3>
+                      <p className="member-position">{member.position}</p>
+                      {member.bio && <p className="member-bio">{member.bio}</p>}
+                      <div className="member-contacts">
+                        {member.email && (
+                          <a href={`mailto:${member.email}`} className="member-contact-link">
+                            ✉ {member.email}
+                          </a>
+                        )}
+                        {member.phone && (
+                          <a href={`tel:${member.phone}`} className="member-contact-link">
+                            ☎ {member.phone}
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <aside className="department-sidebar">
